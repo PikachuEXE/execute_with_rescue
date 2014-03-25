@@ -43,11 +43,13 @@ module ExecuteWithRescue
             _validate_execute_with_rescue_hook!(method_names, block)
 
             # Must use setter to avoid changing parent setting
-            self._execute_with_rescue_before_hooks += method_names
-            self._execute_with_rescue_before_hooks += [block]
-            # flatten and compact on initialize only this way
-            self._execute_with_rescue_before_hooks.flatten!
-            self._execute_with_rescue_before_hooks.compact!
+            self._execute_with_rescue_before_hooks =
+              [
+                self._execute_with_rescue_before_hooks,
+                # Add method names first, block later
+                method_names,
+                block,
+              ].flatten.compact
           end
           alias_method :add_execute_with_rescue_before_hook,
                        :add_execute_with_rescue_before_hooks
@@ -60,11 +62,13 @@ module ExecuteWithRescue
             _validate_execute_with_rescue_hook!(method_names, block)
 
             # Must use setter to avoid changing parent setting
-            self._execute_with_rescue_after_hooks += method_names
-            self._execute_with_rescue_after_hooks += [block]
-            # flatten and compact on initialize only this way
-            self._execute_with_rescue_after_hooks.flatten!
-            self._execute_with_rescue_after_hooks.compact!
+            self._execute_with_rescue_after_hooks =
+              [
+                self._execute_with_rescue_after_hooks,
+                # Add method names first, block later
+                method_names,
+                block,
+              ].flatten.compact
           end
           alias_method :add_execute_with_rescue_after_hook,
                        :add_execute_with_rescue_after_hooks
