@@ -8,9 +8,12 @@ Gem::Specification.new do |spec|
   spec.version       = ExecuteWithRescue::VERSION
   spec.authors       = ["PikachuEXE"]
   spec.email         = ["pikachuexe@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{Execute code without writting rescue in methods with before and after hooks. You can also create some extensions yourself.}
+  spec.description   = <<-DESC
+                         Saves your from writing `begin...rescue...ensure...end` everywhere.
+                         This assumes you know how to use `rescue_from` not just within a controller.
+                       DESC
+  spec.homepage      = "http://github.com/PikachuEXE/execute_with_rescue"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -18,6 +21,16 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "activesupport", ">= 3.2.0", "< 5.0.0"
+
   spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "appraisal", ">= 0.5.2"
+  spec.add_development_dependency "rspec", "~> 2.14.0"
+  spec.add_development_dependency "coveralls", ">= 0.7"
+  spec.add_development_dependency "gem-release", ">= 0.7"
+
+  spec.required_ruby_version = ">= 1.9.3"
+
+  spec.required_rubygems_version = ">= 1.4.0"
 end
