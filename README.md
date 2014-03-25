@@ -10,6 +10,19 @@ Calling `airbrake` manually sometimes is the best option, but not all the time.
 I might release another gem for that airbrake adapter.  
 
 
+## Support
+===========
+Tested against:
+- Active Support of version `3.2`, `4.0` and `4.1` (pre-3.2 got wrong dependency & I don't want to support)
+- MRI `1.9.3`, `2.0.0`, `2.1.0`, `2.1.1`
+
+[![Build Status](http://img.shields.io/travis/PikachuEXE/execute_with_rescue.svg)](https://travis-ci.org/PikachuEXE/execute_with_rescue)
+[![Gem Version](http://img.shields.io/gem/v/execute_with_rescue.svg)](http://badge.fury.io/rb/execute_with_rescue)
+[![Dependency Status](http://img.shields.io/gemnasium/PikachuEXE/execute_with_rescue.svg)](https://gemnasium.com/PikachuEXE/execute_with_rescue)
+[![Coverage Status](http://img.shields.io/coveralls/PikachuEXE/execute_with_rescue.svg)](https://coveralls.io/r/PikachuEXE/execute_with_rescue)
+[![Code Climate](http://img.shields.io/codeclimate/github/PikachuEXE/execute_with_rescue.svg)](https://codeclimate.com/github/PikachuEXE/execute_with_rescue)
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
