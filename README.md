@@ -62,9 +62,9 @@ end
 Beware that the "hooks" execution order are like [`ActiveSupport::Callbacks`](http://api.rubyonrails.org/classes/ActiveSupport/Callbacks.html)  
 
 ### `.add_execute_with_rescue_before_hooks`
-Alias: `.add_execute_with_rescue_before_hook`
-Execution order: Add first, run first
-```
+Alias: `.add_execute_with_rescue_before_hook`  
+Execution order: Add first, run first  
+```ruby
 class SomeServiceClass
   # Either add hooks by using method names in symbol
   add_execute_with_rescue_before_hook :report_start_by_logging
@@ -93,9 +93,9 @@ end
 ```
 
 ### `.add_execute_with_rescue_after_hooks`
-Alias: `.add_execute_with_rescue_after_hook`
-Execution order: Add first, run last
-```
+Alias: `.add_execute_with_rescue_after_hook`  
+Execution order: Add first, run last  
+```ruby
 class SomeServiceClass
   # Either add hooks by using method names in symbol
   add_execute_with_rescue_after_hook :report_end_by_logging
