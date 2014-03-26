@@ -41,25 +41,28 @@ describe ExecuteWithRescue::Mixins::Core do
         .to raise_error(TestServiceWithRescue::CustomError)
       end
 
-      context 'with after hook' do
-        let!(:service_class) { TestServiceWithErrorAndAfterHook }
+      describe 'after hook execution' do
+        describe 'after an error is raised in block' do
 
-        specify 'after hooks are run after exception is raised' do
-          expect(service_instance.hook_exec_count).to eq(0)
+          let!(:service_class) { TestServiceWithErrorAndAfterHook }
 
-          expect { service_call }
-          .to raise_error(RuntimeError)
+          specify 'after hooks are run after exception is raised' do
+            expect(service_instance.hook_exec_count).to eq(0)
 
-          expect(service_instance.hook_exec_count).to eq(1)
+            expect { service_call }
+            .to raise_error(RuntimeError)
+
+            expect(service_instance.hook_exec_count).to eq(1)
+          end
         end
-      end
 
-      context 'with after hooks' do
-        let!(:service_class) { TestServiceWithManyAfterHooks }
+        describe 'order' do
+          let!(:service_class) { TestServiceWithManyAfterHooks }
 
-        specify 'after hooks run in reverse order of the define order' do
-          expect { service_call }
-          .to change{ service_instance.some_data_array }.from([]).to([2,1])
+          specify 'after hooks run in reverse order of the define order' do
+            expect { service_call }
+            .to change{ service_instance.some_data_array }.from([]).to([2,1])
+          end
         end
       end
     end
@@ -93,7 +96,23 @@ describe ExecuteWithRescue::Mixins::Core do
           end
         end
 
-        context 'with symbol' do
+        context 'with symbol of a non-existing method name' do
+          let!(:temp_class) do
+            Class.new(TestServiceWithPrivateMethodCallInExecute).tap do |klass|
+              klass.class_eval do
+                add_execute_with_rescue_after_hook(:non_existing_method)
+              end
+            end
+          end
+          let!(:service_class) { temp_class }
+
+          specify do
+            expect { service_call }
+            .to raise_error(ExecuteWithRescue::Errors::NoHookMethod)
+          end
+        end
+
+        context 'with symbol of an existing method name' do
           context 'with before hook' do
             let!(:service_class) { TestServiceWithSymbolBeforeHook }
 
