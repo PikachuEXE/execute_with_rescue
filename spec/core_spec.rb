@@ -33,39 +33,7 @@ describe ExecuteWithRescue::Mixins::Core do
         .to raise_error(StandardError)
       end
     end
-    context 'with calling rescue_from' do
-      let!(:service_class) { TestServiceWithRescue }
 
-      specify do
-        expect { service_call }
-        .to raise_error(TestServiceWithRescue::CustomError)
-      end
-
-      describe 'after hook execution' do
-        describe 'after an error is raised in block' do
-
-          let!(:service_class) { TestServiceWithErrorAndAfterHook }
-
-          specify 'after hooks are run after exception is raised' do
-            expect(service_instance.hook_exec_count).to eq(0)
-
-            expect { service_call }
-            .to raise_error(RuntimeError)
-
-            expect(service_instance.hook_exec_count).to eq(1)
-          end
-        end
-
-        describe 'order' do
-          let!(:service_class) { TestServiceWithManyAfterHooks }
-
-          specify 'after hooks run in reverse order of the define order' do
-            expect { service_call }
-            .to change{ service_instance.some_data_array }.from([]).to([2,1])
-          end
-        end
-      end
-    end
     context 'with calling rescue_from' do
       let!(:service_class) { TestServiceWithRescue }
 
@@ -196,6 +164,49 @@ describe ExecuteWithRescue::Mixins::Core do
           specify do
             expect { service_call }
             .to change{ service_instance.hook_exec_count }.from(0).to(5)
+          end
+        end
+      end
+
+      context 'with tampered internal class attribuite' do
+        let!(:temp_class) do
+          Class.new(TestServiceWithPrivateMethodCallInExecute).tap do |klass|
+            klass.class_eval do
+              _execute_with_rescue_before_hooks << Hash.new
+            end
+          end
+        end
+        let!(:service_class) { temp_class }
+
+        specify 'after hooks run in reverse order of the define order' do
+          expect { service_call }
+          .to raise_error(ExecuteWithRescue::Errors::UnsupportedHookValue)
+        end
+      end
+
+
+
+      describe 'after hook execution' do
+        describe 'after an error is raised in block' do
+
+          let!(:service_class) { TestServiceWithErrorAndAfterHook }
+
+          specify 'after hooks are run after exception is raised' do
+            expect(service_instance.hook_exec_count).to eq(0)
+
+            expect { service_call }
+            .to raise_error(RuntimeError)
+
+            expect(service_instance.hook_exec_count).to eq(1)
+          end
+        end
+
+        describe 'order' do
+          let!(:service_class) { TestServiceWithManyAfterHooks }
+
+          specify 'after hooks run in reverse order of the define order' do
+            expect { service_call }
+            .to change{ service_instance.some_data_array }.from([]).to([2,1])
           end
         end
       end
