@@ -13,11 +13,11 @@ I might release another gem for that airbrake adapter.
 ## Support
 ===========
 
-[![Build Status](http://img.shields.io/travis/PikachuEXE/execute_with_rescue.svg)](https://travis-ci.org/PikachuEXE/execute_with_rescue)
-[![Gem Version](http://img.shields.io/gem/v/execute_with_rescue.svg)](http://badge.fury.io/rb/execute_with_rescue)
-[![Dependency Status](http://img.shields.io/gemnasium/PikachuEXE/execute_with_rescue.svg)](https://gemnasium.com/PikachuEXE/execute_with_rescue)
-[![Coverage Status](http://img.shields.io/coveralls/PikachuEXE/execute_with_rescue.svg)](https://coveralls.io/r/PikachuEXE/execute_with_rescue)
-[![Code Climate](http://img.shields.io/codeclimate/github/PikachuEXE/execute_with_rescue.svg)](https://codeclimate.com/github/PikachuEXE/execute_with_rescue)
+[![Build Status](http://img.shields.io/travis/PikachuEXE/execute_with_rescue.svg?style=flat-square)](https://travis-ci.org/PikachuEXE/execute_with_rescue)
+[![Gem Version](http://img.shields.io/gem/v/execute_with_rescue.svg?style=flat-square)](http://badge.fury.io/rb/execute_with_rescue)
+[![Dependency Status](http://img.shields.io/gemnasium/PikachuEXE/execute_with_rescue.svg?style=flat-square)](https://gemnasium.com/PikachuEXE/execute_with_rescue)
+[![Coverage Status](http://img.shields.io/coveralls/PikachuEXE/execute_with_rescue.svg?style=flat-square)](https://coveralls.io/r/PikachuEXE/execute_with_rescue)
+[![Code Climate](http://img.shields.io/codeclimate/github/PikachuEXE/execute_with_rescue.svg?style=flat-square)](https://codeclimate.com/github/PikachuEXE/execute_with_rescue)
 
 
 ## Installation
