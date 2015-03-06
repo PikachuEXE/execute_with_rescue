@@ -10,8 +10,7 @@ Calling `airbrake` manually sometimes is the best option, but not all the time.
 I might release another gem for that airbrake adapter.  
 
 
-## Support
-===========
+## Status
 
 [![Build Status](http://img.shields.io/travis/PikachuEXE/execute_with_rescue.svg?style=flat-square)](https://travis-ci.org/PikachuEXE/execute_with_rescue)
 [![Gem Version](http://img.shields.io/gem/v/execute_with_rescue.svg?style=flat-square)](http://badge.fury.io/rb/execute_with_rescue)
