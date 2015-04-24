@@ -29,7 +29,7 @@ class TestServiceWithError < TestService
 
   def call
     execute_with_rescue do
-      raise StandardError
+      fail StandardError
     end
   end
 end
@@ -41,7 +41,7 @@ class TestServiceWithRescue < TestServiceWithError
   private
 
   def handle_error
-    raise CustomError
+    fail CustomError
   end
 end
 class TestServiceWithHook < TestServiceWithRescue
@@ -56,6 +56,7 @@ class TestServiceWithHook < TestServiceWithRescue
   def handle_error
     # do nothing
   end
+
   def inc_hook_exec_count
     @hook_exec_count += 1
   end
@@ -82,9 +83,11 @@ class TestServiceWithBlockBeforeAfterHook < TestServiceWithHook
 end
 
 class TestServiceWithManySymbolBeforeHook < TestServiceWithHook
-  add_execute_with_rescue_before_hooks(:inc_hook_exec_count,
-                                       :inc_hook_exec_count,
-                                       :inc_hook_exec_count)
+  add_execute_with_rescue_before_hooks(
+    :inc_hook_exec_count,
+    :inc_hook_exec_count,
+    :inc_hook_exec_count,
+  )
 end
 class TestServiceWithManySymbolBeforeHookInherited <
     TestServiceWithManySymbolBeforeHook
@@ -111,9 +114,8 @@ class TestServiceWithManyAfterHooks < TestServiceWithHook
   end
 end
 
-
 class TestServiceWithErrorAndAfterHook < TestServiceWithBlockAfterHook
   def handle_error
-    raise RuntimeError
+    fail RuntimeError
   end
 end

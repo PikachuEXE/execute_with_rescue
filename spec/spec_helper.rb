@@ -1,15 +1,15 @@
 if ENV["TRAVIS"]
-  require 'coveralls'
+  require "coveralls"
   Coveralls.wear!
 end
 
-require 'execute_with_rescue'
+require "execute_with_rescue"
 
-require 'fixtures/test_service_classes'
-require 'rspec'
-require 'rspec/its'
+require "fixtures/test_service_classes"
+require "rspec"
+require "rspec/its"
 
-require 'logger'
+require "logger"
 
-RSpec.configure do |config|
+RSpec.configure do
 end

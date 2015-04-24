@@ -1,8 +1,8 @@
-require 'active_support/concern'
-require 'active_support/rescuable'
-require 'active_support/core_ext/class/attribute'
+require "active_support/concern"
+require "active_support/rescuable"
+require "active_support/core_ext/class/attribute"
 
-require 'execute_with_rescue/errors'
+require "execute_with_rescue/errors"
 
 module ExecuteWithRescue
   module Mixins
@@ -13,13 +13,17 @@ module ExecuteWithRescue
         include ActiveSupport::Rescuable
 
         # Use active support or inheritance will be broken
-        class_attribute :_execute_with_rescue_before_hooks,
-                        instance_reader: true,
-                        instance_writer: false
+        class_attribute(
+          :_execute_with_rescue_before_hooks,
+          instance_reader: true,
+          instance_writer: false,
+        )
         self._execute_with_rescue_before_hooks = []
-        class_attribute :_execute_with_rescue_after_hooks,
-                        instance_reader: true,
-                        instance_writer: false
+        class_attribute(
+          :_execute_with_rescue_after_hooks,
+          instance_reader: true,
+          instance_writer: false,
+        )
         self._execute_with_rescue_after_hooks = []
 
         class << self
@@ -45,14 +49,16 @@ module ExecuteWithRescue
             # Must use setter to avoid changing parent setting
             self._execute_with_rescue_before_hooks =
               [
-                self._execute_with_rescue_before_hooks,
+                _execute_with_rescue_before_hooks,
                 # Add method names first, block later
                 method_names,
                 block,
               ].flatten.compact
           end
-          alias_method :add_execute_with_rescue_before_hook,
-                       :add_execute_with_rescue_before_hooks
+          alias_method(
+            :add_execute_with_rescue_before_hook,
+            :add_execute_with_rescue_before_hooks,
+          )
 
           # Pass method names or/and a block to be executed after yield
           # Similar to add_execute_with_rescue_before_hooks
@@ -64,23 +70,25 @@ module ExecuteWithRescue
             # Must use setter to avoid changing parent setting
             self._execute_with_rescue_after_hooks =
               [
-                self._execute_with_rescue_after_hooks,
+                _execute_with_rescue_after_hooks,
                 # Add method names first, block later
                 method_names,
                 block,
               ].flatten.compact
           end
-          alias_method :add_execute_with_rescue_after_hook,
-                       :add_execute_with_rescue_after_hooks
+          alias_method(
+            :add_execute_with_rescue_after_hook,
+            :add_execute_with_rescue_after_hooks,
+          )
 
-          # @private
+          # @api private
           # @discuss
           #   Should this moved into another module?
           #   (without being mixed in)
           def _validate_execute_with_rescue_hook!(method_names, block)
-            raise ArgumentError if (method_names.empty? && block.nil?)
-            raise ExecuteWithRescue::Errors::UnsupportedHookValue unless
-              method_names.all?{|m| m.is_a?(Symbol)}
+            fail ArgumentError if method_names.empty? && block.nil?
+            fail ExecuteWithRescue::Errors::UnsupportedHookValue unless
+              method_names.all? { |m| m.is_a?(Symbol) }
           end
         end
       end
@@ -91,7 +99,7 @@ module ExecuteWithRescue
       # after you have call `rescue_from` at class level
       # This saves you from typing:
       # ```
-      # being
+      # begin
       #   # Some code that might cause exception
       # rescue
       #   rescue_with_handler(exception) || raise
@@ -101,6 +109,8 @@ module ExecuteWithRescue
       #
       # You can use `alias_method` to create a shorter alias, I use `execute`
       # But some gem might use that name already, so be careful
+      #
+      # @api
       #
       # @param block [Proc]
       #   a block to be executed
@@ -129,43 +139,45 @@ module ExecuteWithRescue
         _run_execute_with_rescue_before_hooks
         yield
       rescue Exception => exception
-        rescue_with_handler(exception) || raise
+        rescue_with_handler(exception) || fail
       ensure
         _run_execute_with_rescue_after_hooks
       end
 
-      # @private
+      # @api private
       def _run_execute_with_rescue_before_hooks
         _execute_with_rescue_before_hooks.each do |before_hook|
           _run_execute_with_rescue_hook(before_hook)
         end
       end
 
-      # @private
+      # @api private
       def _run_execute_with_rescue_after_hooks
-        _execute_with_rescue_after_hooks.reverse.each do |after_hook|
+        _execute_with_rescue_after_hooks.reverse_each do |after_hook|
           _run_execute_with_rescue_hook(after_hook)
         end
       end
 
-      # @private
+      # @api private
       def _run_execute_with_rescue_hook(method_name_or_block)
         case method_name_or_block
         when Symbol
-          begin
-            self.send(method_name_or_block)
-          rescue NoMethodError
-            raise ExecuteWithRescue::Errors::NoHookMethod,
-                  "method `#{method_name_or_block}` does not exists"
-          end
-        # block are converted to Proc as argument
+          _run_execute_with_rescue_hook_with_symbol(method_name_or_block)
         when Proc
+          # block are converted to Proc as argument
           instance_eval(&method_name_or_block)
         else
           # This should not happen unless someone tamper the class attribute
           # without using the provided methods
-          raise ExecuteWithRescue::Errors::UnsupportedHookValue
+          fail ExecuteWithRescue::Errors::UnsupportedHookValue
         end
+      end
+
+      def _run_execute_with_rescue_hook_with_symbol(method_name)
+        send(method_name)
+      rescue NoMethodError
+        fail ExecuteWithRescue::Errors::NoHookMethod,
+          "method `#{method_name}` does not exists"
       end
     end
   end
