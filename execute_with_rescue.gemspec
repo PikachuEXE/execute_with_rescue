@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
     Execute code without writting rescue in methods with before and after hooks.
     You can also create some extensions yourself.
   SUMMARY
-  spec.description   = <<-DESC
+  spec.description = <<-DESC
     Saves your from writing `begin...rescue...ensure...end` everywhere.
     This assumes you know how to use `rescue_from` not just within a controller.
   DESC
