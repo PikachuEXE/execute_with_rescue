@@ -7,7 +7,7 @@ cache:
 rvm:
   - 2.0
   - 2.1
-  - 2.2
+  - 2.2.4
   # Since the Travis Build Env does not recognize `2.3` alias yet
   # We need to specify the version precisely
   - 2.3.0
@@ -22,4 +22,9 @@ matrix:
   fast_finish: true
   allow_failures:
     - rvm: ruby-head
+  exclude:
+    - rvm: 2.0
+      gemfile: gemfiles/rails_5_0.gemfile
+    - rvm: 2.1
+      gemfile: gemfiles/rails_5_0.gemfile
 
