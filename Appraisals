@@ -18,3 +18,7 @@ appraise "rails_4_2" do
   gem "activesupport", version
 end
 
+appraise "rails_5_0" do
+  gem 'activesupport', ">= 5.0.0.beta1", "<= 5.1"
+end
+
