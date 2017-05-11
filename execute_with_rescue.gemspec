@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "activesupport", ">= 4.0.0", "< 5.1.0"
+  spec.add_dependency "activesupport", ">= 4.1.0", "< 6.0.0"
 
   spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "rake", ">= 10.0", "<= 13.0"
@@ -35,7 +35,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "gem-release", ">= 0.7"
   spec.add_development_dependency "rubocop", "~> 0.30"
 
-  spec.required_ruby_version = ">= 2.1.0"
+  spec.required_ruby_version = ">= 2.2.0"
 
   spec.required_rubygems_version = ">= 1.4.0"
 end
